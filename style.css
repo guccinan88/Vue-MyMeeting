@@ -1,0 +1,15 @@
+body{
+    font-family: Microsoft JhengHei;
+}
+.btn-circle{
+    width: 30px;
+    height: 30px;
+    padding:6px 0px;
+    border-radius:5px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+}
+#page-title{
+    background-color:darkgray;
+}

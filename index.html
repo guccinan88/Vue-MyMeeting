@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/435f772d2a.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0/axios.min.js"
+        integrity="sha512-26uCxGyoPL1nESYXHQ+KUmm3Maml7MEQNWU8hIt1hJaZa5KQAQ5ehBqK6eydcCOh6YAuZjV3augxu/5tY4fsgQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="jumbotron jumbotron-fluid" id="page-title">
+            <div class="container text-center mt-4">
+                <h1 class="display-4">My Meeting</h1>
+                <p class="lead">使用VUE實作會議行程</p>
+            </div>
+        </div>
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            新增會議
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="title">主題</span>
+                                </div>
+                                <input type="text" class="form-control" v-model="newNote.name" placeholder="輸入標題" 
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="content">內容</span>
+                                </div>
+                                <input type="text" class="form-control" v-model="newNote.content" placeholder="輸入內容"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <a href="#" class="btn btn-primary" @click="addNote">新增</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr class="text-center">
+                            <th scope="col">主題</th>
+                            <th scope="col">內容</th>
+                            <th scope="col">日期</th>
+                            <th scope="col">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="text-center" v-for="note of notes">
+                            <td>{{note.name}}</td>
+                            <td>{{note.content}}</td>
+                            <td>{{note.created}}</td>
+                            <td><button class="btn btn-danger btn-circle" @click="deleteNote(note)">刪除</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                newNote:{
+                    name:'',
+                    content:''
+                },
+                notes:[]
+            },
+            methods:{
+                addNote(){
+                    if(this.newNote.name.trim().length==0 || this.newNote.content.trim().length==0){
+                        alert('標題與內容都必須填寫!');
+                        return;
+                    }
+                    const note={
+                        name:this.newNote.name,
+                        content:this.newNote.content,
+                        created:new Date().toDateString()
+                    }
+                    this.notes.push(note);
+                    this.newNote.content='';
+                    this.newNote.name='';
+                    console.log(this.notes);
+                },
+                deleteNote(note){
+                    if(confirm('確認刪除這場會議嗎?')){
+                        const ndx=this.notes.indexOf(note);
+                        console.log(ndx);
+                        if(ndx!==-1){
+                            this.notes.splice(ndx,1);
+                        }
+                    }
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
